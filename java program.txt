@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PATIENTS 50
+
+// Structure to represent a patient
+typedef struct {
+    char name[50];
+    int age;
+    char gender;
+    char illness[100];
+} Patient;
+
+// Function to display the menu
+void displayMenu() {
+    printf("\nWelcome to Hospital Management System\n");
+    printf("------------------------------------\n");
+    printf("1. Add Patient\n");
+    printf("2. Search Patient\n");
+    printf("3. Display All Patients\n");
+    printf("4. Exit\n");
+}
+
+int main() {
+    Patient patients[MAX_PATIENTS];
+    int numPatients = 0;
+
+    while (1) {
+        displayMenu();
+
+        int choice;
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: {
+                if (numPatients == MAX_PATIENTS) {
+                    printf("Error: Maximum number of patients reached.\n");
+                    break;
+                }
+
+                printf("\nEnter patient name: ");
+                scanf("%s", patients[numPatients].name);
+                printf("Enter patient age: ");
+                scanf("%d", &patients[numPatients].age);
+                printf("Enter patient gender (M/F): ");
+                scanf(" %c", &patients[numPatients].gender);
+                printf("Enter patient illness: ");
+                scanf("%s", patients[numPatients].illness);
+
+                printf("\nPatient added successfully.\n");
+                numPatients++;
+                break;
+            }
+
+            case 2: {
+                char searchName[50];
+                printf("\nEnter patient name to search: ");
+                scanf("%s", searchName);
+
+                int found = 0;
+                for (int i = 0; i < numPatients; i++) {
+                    if (strcmp(searchName, patients[i].name) == 0) {
+                        printf("\nName: %s\nAge: %d\nGender: %c\nIllness: %s\n", patients[i].name, patients[i].age, patients[i].gender, patients[i].illness);
+                        found = 1;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    printf("\nPatient not found.\n");
+                }
+
+                break;
+            }
+
+            case 3: {
+                if (numPatients == 0) {
+                    printf("\nNo patients found.\n");
+                    break;
+                }
+
+                printf("\nList of patients:\n");
+                for (int i = 0; i < numPatients; i++) {
+                    printf("\nName: %s\nAge: %d\nGender: %c\nIllness: %s\n", patients[i].name, patients[i].age, patients[i].gender, patients[i].illness);
+                }
+
+                break;
+            }
+
+            case 4: {
+                printf("\nExiting Hospital Management System. Goodbye!\n");
+                exit(0);
+            }
+
+            default: {
+                printf("\nInvalid choice. Please try again.\n");
+                break;
+            }
+        }
+    }
+
+    return 0;
+}
+
